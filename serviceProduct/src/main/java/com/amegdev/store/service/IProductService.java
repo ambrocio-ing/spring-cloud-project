@@ -8,5 +8,5 @@ import com.amegdev.store.entity.Product;
 public interface IProductService extends ICrudService<Product>{
 	
 	public List<Product> getByCategory(Category category);
-	public Product updateStock(Long id, Double quantity);		
+	public Product updateStock(Integer id, Double quantity);		
 }

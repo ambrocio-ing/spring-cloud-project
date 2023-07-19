@@ -28,9 +28,9 @@ public class ProductRepositoryMockTest {
 		//this.insertProducts();
 		
 		Product p = Product.builder()
-				.id(4L)
+				.id(4)
 				.name("computer")
-				.category(Category.builder().id(1L).build())
+				.category(Category.builder().id(1).build())
 				.description("")
 				.stock(Double.parseDouble("10"))
 				.price(Double.parseDouble("1240.99"))
@@ -46,13 +46,13 @@ public class ProductRepositoryMockTest {
 	}	
 	
 	public void insertProducts() {
-		List<Category> cats = Arrays.asList(new Category(1L, "adidas"), new Category(2L, "books"), new Category(3L, "electronics"));
+		List<Category> cats = Arrays.asList(new Category(1, "adidas"), new Category(2, "books"), new Category(3, "electronics"));
 		categoryRepository.saveAll(cats);
 		
 		List<Product> prods = Arrays.asList(
-				new Product(1L, "adidas Cloudfoam Ultimate","Walk in the air in the black / black CLOUDFOAM ULTIMATE running shoe from ADIDAS", 5.00, 178.89, "CREATED", LocalDate.now(), cats.get(0)),
-				new Product(2L, "under armour Mens Micro G Assert – 7", "under armour Men ''Lightweight mesh upper delivers complete breathability . Durable leather overlays for stability", 4.00, 12.5, "CREATED",LocalDate.now(),cats.get(0)),
-				new Product(3L, "Spring Boot in Action", "under armour Men '' Craig Walls is a software developer at Pivotal and is the author of Spring in Action", 12.00, 40.06, "CREATED", LocalDate.now(), cats.get(1)));
+				new Product(1, "adidas Cloudfoam Ultimate","Walk in the air in the black / black CLOUDFOAM ULTIMATE running shoe from ADIDAS", 5.00, 178.89, "CREATED", LocalDate.now(), cats.get(0)),
+				new Product(2, "under armour Mens Micro G Assert – 7", "under armour Men ''Lightweight mesh upper delivers complete breathability . Durable leather overlays for stability", 4.00, 12.5, "CREATED",LocalDate.now(),cats.get(0)),
+				new Product(3, "Spring Boot in Action", "under armour Men '' Craig Walls is a software developer at Pivotal and is the author of Spring in Action", 12.00, 40.06, "CREATED", LocalDate.now(), cats.get(1)));
 		
 		productRepository.saveAll(prods);
 	}

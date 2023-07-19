@@ -31,9 +31,9 @@ public class ProductServiceMockTest {
 		productService = new ProductServiceImplements(productRepository);
 		
 		Product p = Product.builder()
-				.id(1L)
+				.id(1)
 				.name("computer")
-				.category(Category.builder().id(1L).build())
+				.category(Category.builder().id(1).build())
 				.description("")
 				.stock(Double.parseDouble("10"))
 				.price(Double.parseDouble("1240.99"))
@@ -41,7 +41,7 @@ public class ProductServiceMockTest {
 				.createAt(LocalDate.now())
 				.build();
 		
-		Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(p));
+		Mockito.when(productRepository.findById(1)).thenReturn(Optional.of(p));
 		
 		Mockito.when(productRepository.save(p)).thenReturn(p);
 				
@@ -49,15 +49,14 @@ public class ProductServiceMockTest {
 	
 	@Test
 	public void whenValidId() {
-		Product found = productService.get(1L);
+		Product found = productService.get(1);
 		Assertions.assertThat(found.getName()).isEqualTo("computer");
 	}
 	
 	@Test
 	public void whenValidStock() {
-		Product pro = productService.updateStock(1L, Double.parseDouble("8"));
+		Product pro = productService.updateStock(1, Double.parseDouble("8"));
 		Assertions.assertThat(pro.getStock()).isEqualTo(18);
-	}
-	
+	}	
 	
 }

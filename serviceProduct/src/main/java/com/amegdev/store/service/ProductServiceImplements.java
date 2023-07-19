@@ -42,7 +42,7 @@ public class ProductServiceImplements implements IProductService {
 	}
 
 	@Override
-	public Product delete(Long id) {
+	public Product delete(Integer id) {
 		
 		Product pro = productRepository.findById(id).orElse(null);
 		if(pro == null)
@@ -53,7 +53,7 @@ public class ProductServiceImplements implements IProductService {
 	}
 
 	@Override
-	public Product get(Long id) {
+	public Product get(Integer id) {
 		
 		return productRepository.findById(id).orElse(null);
 	}
@@ -65,7 +65,7 @@ public class ProductServiceImplements implements IProductService {
 	}
 
 	@Override
-	public Product updateStock(Long id, Double quantity) {
+	public Product updateStock(Integer id, Double quantity) {
 		Product pro = productRepository.findById(id).orElse(null);
 		
 		if(pro != null) {

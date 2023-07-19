@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.amegdev.store.entity.Category;
 
-public interface ICategoryRepository extends JpaRepository<Category, Long> {
+public interface ICategoryRepository extends JpaRepository<Category, Integer> {
 
 }

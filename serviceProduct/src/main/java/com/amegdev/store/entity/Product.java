@@ -32,7 +32,7 @@ public class Product {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
 	@NotEmpty(message = "El nombre no debe ser vacío")
 	private String name;

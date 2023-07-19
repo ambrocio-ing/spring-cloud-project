@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.amegdev.entity.Customer;
 import com.amegdev.entity.Region;
@@ -34,13 +35,14 @@ public class CustomerController {
 	private ICustomerService customerService;
 	
 	@GetMapping
-	public ResponseEntity<?> listAllCustomers(@RequestParam(name = "regionId", required = false) Integer regionId){
+	public ResponseEntity<List<Customer>> listAllCustomers(@RequestParam(name = "regionId", required = false) Integer regionId){
 		
 		List<Customer> customers = new ArrayList<>();
 		if(null == regionId) {
 			customers = customerService.getCustomerAll();
 			if(customers.isEmpty()) {
-				return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Sin datos que mostrar");
+				//return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Sin datos que mostrar");
+				return ResponseEntity.noContent().build();
 			}
 		}
 		else {
@@ -49,7 +51,7 @@ public class CustomerController {
 			customers = customerService.getCustomerByRegion(region);
 			if(null == customers) {
 				log.error("Clientes para la region {} no encontrado.", regionId);
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sin datos que mostrar");
+				return ResponseEntity.notFound().build();
 			}
 		}
 		
@@ -57,25 +59,25 @@ public class CustomerController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getCustomer(@PathVariable(name = "id") Integer id){
+	public ResponseEntity<Customer> getCustomer(@PathVariable(name = "id") Integer id){
 		
 		Customer customer = customerService.getCustomer(id);
 		if(null == customer) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sin datos que mostrar");
+			return ResponseEntity.notFound().build();
 		}
 		
 		return ResponseEntity.ok(customer);		
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> createCustomer(@Valid @RequestBody Customer customer, BindingResult result){
+	public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer, BindingResult result){
 		
 		if(result.hasErrors()) {
 			List<String> listErrors = result.getFieldErrors().stream()
 					.map(error -> String.format("Error en %s : %s", error.getField(), error.getDefaultMessage()))
 					.collect(Collectors.toList());
 			
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(listErrors.toString());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, listErrors.toString());
 		}
 		
 		Customer customerDB = customerService.createCustomer(customer);
@@ -84,11 +86,11 @@ public class CustomerController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> updateCustomer(@PathVariable(name = "id") Integer id, @RequestBody Customer customer){
+	public ResponseEntity<Customer> updateCustomer(@PathVariable(name = "id") Integer id, @RequestBody Customer customer){
 		
 		Customer currentCustomer = customerService.getCustomer(id);
 		if(null == currentCustomer) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("El cliente con id: %s no existe", id));
+			return ResponseEntity.notFound().build();
 		}
 		
 		customer.setId(currentCustomer.getId());
@@ -97,11 +99,11 @@ public class CustomerController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteCustomer(@PathVariable(name = "id") Integer id){
+	public ResponseEntity<Customer> deleteCustomer(@PathVariable(name = "id") Integer id){
 		
 		Customer customer = customerService.getCustomer(id);
 		if(null == customer) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("Cliente con id: %s no fue encontrado", id));
+			return ResponseEntity.notFound().build();
 		}
 		
 		customer = customerService.deleteCustomer(customer);

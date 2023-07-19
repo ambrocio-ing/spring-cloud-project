@@ -7,6 +7,6 @@ public interface ICrudService<T> {
 	List<T> getAll();
 	T create(T entity);
 	T update(T entity);
-	T delete(Long id);	
-	T get(Long id);
+	T delete(Integer id);	
+	T get(Integer id);
 }

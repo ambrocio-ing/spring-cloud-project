@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.amegdev.model.Customer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -18,6 +19,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.Valid;
 import lombok.Data;
 
@@ -30,7 +32,7 @@ public class Invoice implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name = "number_invoice")
+	@Column(name = "number_invoice", unique = true)
 	private String numberInvoice;
 	
 	private String description;
@@ -48,6 +50,9 @@ public class Invoice implements Serializable {
     private List<InvoiceItem> items;
 
     private String state;    
+    
+    @Transient
+    private Customer customer;
 
     public Invoice(){
         items = new ArrayList<>();

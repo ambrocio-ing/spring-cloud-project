@@ -2,6 +2,8 @@ package com.amegdev.entity;
 
 import java.io.Serializable;
 
+import com.amegdev.model.Product;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +33,9 @@ public class InvoiceItem implements Serializable {
 	
 	@Transient
 	private Double subTotal;
+	
+	@Transient
+	private Product product;
 	
 	public Double getSubTotal() {
 		if(this.price > 0 && this.quantity > 0) {

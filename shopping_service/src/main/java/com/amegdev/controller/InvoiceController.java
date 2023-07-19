@@ -31,8 +31,7 @@ public class InvoiceController {
 	
 	 @Autowired
 	 private IInvoiceService invoiceService;
-
-	 // -------------------Retrieve All Invoices--------------------------------------------
+	
 	 @GetMapping
 	 public ResponseEntity<List<Invoice>> listAllInvoices() {
 		 List<Invoice> invoices = invoiceService.getInvoiceAll();
@@ -40,11 +39,9 @@ public class InvoiceController {
 	         return  ResponseEntity.noContent().build();
 	     }
 	     
-	     return  ResponseEntity.ok(invoices);
-	  
+	     return  ResponseEntity.ok(invoices);	  
 	 }
-
-	    // -------------------Retrieve Single Invoice------------------------------------------
+	   
 	    @GetMapping(value = "/{id}")
 	    public ResponseEntity<Invoice> getInvoice(@PathVariable("id") Integer id) {
 	        log.info("Fetching Invoice with id {}", id);
@@ -53,10 +50,10 @@ public class InvoiceController {
 	            log.error("Invoice with id {} not found.", id);
 	            return  ResponseEntity.notFound().build();
 	        }
+	        
 	        return  ResponseEntity.ok(invoice);
 	    }
-
-	    // -------------------Create a Invoice-------------------------------------------
+	 
 	    @PostMapping
 	    public ResponseEntity<Invoice> createInvoice(@Valid @RequestBody Invoice invoice, BindingResult result) {
 	        log.info("Creating Invoice : {}", invoice);
@@ -67,12 +64,12 @@ public class InvoiceController {
 	        			
 	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMessage);
 	        }
+	        
 	        Invoice invoiceDB = invoiceService.createInvoice (invoice);
 
 	        return  ResponseEntity.status( HttpStatus.CREATED).body(invoiceDB);
 	    }
-
-	    // ------------------- Update a Invoice ------------------------------------------------
+	   
 	    @PutMapping(value = "/{id}")
 	    public ResponseEntity<?> updateInvoice(@PathVariable("id") Integer id, @RequestBody Invoice invoice) {
 	        log.info("Updating Invoice with id {}", id);
@@ -84,10 +81,11 @@ public class InvoiceController {
 	            log.error("Unable to update. Invoice with id {} not found.", id);
 	            return  ResponseEntity.notFound().build();
 	        }
+	        
 	        return  ResponseEntity.ok(currentInvoice);
 	    }
 
-	    // ------------------- Delete a Invoice-----------------------------------------
+	    
 	    @DeleteMapping(value = "/{id}")
 	    public ResponseEntity<Invoice> deleteInvoice(@PathVariable("id") Integer id) {
 	        log.info("Fetching & Deleting Invoice with id {}", id);
@@ -97,7 +95,8 @@ public class InvoiceController {
 	            log.error("Unable to delete. Invoice with id {} not found.", id);
 	            return  ResponseEntity.notFound().build();
 	        }
-	        invoice = invoiceService.deleteInvoice(invoice);
+	        
+	        invoice = invoiceService.deleteInvoice(invoice);	        
 	        return ResponseEntity.ok(invoice);
 	    }   
 	   	
