@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.amegdev.model.Customer;
 
-@FeignClient(name = "customer-service", path = "/customers")
+@FeignClient(name = "customer-service", path = "/customers", fallback = CustomerHystrixFallbackFactory.class)
 //@RequestMapping("/customers")
 public interface ICustomerClient {
 	
